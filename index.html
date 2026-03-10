@@ -75,11 +75,11 @@
     /* CARRUSEL RESPONSIVE */
     .galeria{background:var(--lp);padding:90px 0}
     .galeria .inn{max-width:100%;padding:0 30px}
-    .car-wrap{position:relative;width:min(100% - 32px, 420px);margin:48px auto 0}
-    .car-inner{overflow:hidden;border-radius:22px;height:clamp(420px,72vw,620px);box-shadow:0 20px 60px rgba(92,74,154,.18);background:white}
+    .car-wrap{position:relative;width:min(100% - 32px, 460px);margin:48px auto 0}
+    .car-inner{overflow:hidden;border-radius:22px;height:clamp(420px,68vw,700px);box-shadow:0 20px 60px rgba(92,74,154,.18);background:#EEE8F8}
     .car-track{display:flex;will-change:transform;height:100%;touch-action:pan-y}
-    .car-slide{min-width:100%;height:100%;flex-shrink:0;position:relative;background:#EEE8F8}
-    .car-slide img{width:100%;height:100%;object-fit:cover;display:block}
+    .car-slide{min-width:100%;height:100%;flex-shrink:0;position:relative;background:#EEE8F8;display:flex;align-items:center;justify-content:center}
+    .car-slide img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;display:block}
     .car-dots{display:flex;justify-content:center;gap:10px;margin-top:18px}
     .car-dot{width:8px;height:8px;border-radius:50%;background:rgba(92,74,154,.22);cursor:pointer;transition:all .3s ease;border:none;padding:0}
     .car-dot.on{background:var(--lo);transform:scale(1.35)}
@@ -140,7 +140,9 @@
     @keyframes pul{0%,100%{opacity:1}50%{opacity:.3}}
     .reveal{opacity:0;transform:translateY(28px);transition:opacity .85s ease,transform .85s ease}
     .reveal.vis{opacity:1;transform:translateY(0)}
-    @media(max-width:480px){.tarjeta{padding:38px 26px}.reg-card{padding:28px 22px}.cr-sep{display:none}.agenda-btns{flex-direction:column;align-items:center}.galeria{padding:72px 0}.galeria .inn{padding:0 20px}.car-wrap{width:min(100% - 24px, 360px)}.car-inner{height:min(78vh, 500px);border-radius:18px}}
+    @media(max-width:768px){.car-wrap{width:min(100% - 24px, 400px)}.car-inner{height:min(78vh, 560px);border-radius:18px}}
+    @media(max-width:480px){.tarjeta{padding:38px 26px}.reg-card{padding:28px 22px}.cr-sep{display:none}.agenda-btns{flex-direction:column;align-items:center}.galeria{padding:72px 0}.galeria .inn{padding:0 20px}.car-wrap{width:min(100% - 24px, 360px)}.car-inner{height:min(74vh, 500px);border-radius:18px}}
+    @media(min-width:1024px){.car-wrap{width:min(100% - 48px, 520px)}.car-inner{height:clamp(500px,56vw,760px)}}
   </style>
 </head>
 <body>
