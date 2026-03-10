@@ -171,7 +171,7 @@
   <div class="tarjeta reveal">
     <p class="t-lbl">Esta invitación es para</p>
     <h2 class="t-nom" id="t-nom">Invitado</h2>
-    <p class="t-vale">✦ Vale para <strong id="t-per">1</strong> persona<span id="t-s">s</span> ✦</p>
+    <p class="t-vale" id="t-vale">✦ Vale para <strong id="t-per">1</strong> persona<span id="t-s">s</span> más ✦</p>
   </div>
 </section>
 
@@ -326,7 +326,9 @@ if (NOM) {
   document.getElementById('t-per').textContent = PER;
   document.getElementById('t-s').textContent   = PER===1?'':'s';
   document.getElementById('r-nom').value       = NOM;
-  } else { document.getElementById('sec-inv').style.display='none'; }
+} else {
+  document.getElementById('t-vale').style.display='none';
+}
 
 // Música
 const aud=document.getElementById('aud');const bm=document.getElementById('btn-mus');let pl=false;
