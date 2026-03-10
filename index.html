@@ -314,20 +314,23 @@
 </footer>
 
 <script>
-const ASU = 'https://script.google.com/macros/s/AKfycbxAVEjchOxW9VVWa14ay7iMwdVZ3rSzQcxQZIB_2BHepbEx91DW5mDSH4P_sBCEcr2G/exec';
+const ASU = 'https://script.google.com/macros/s/AKfycbyz6bkMR7X-EPX0qDk-fsBz9aiwAp5NmaxmtZb8tJIva2qCuNgIhWqiEeIEqzJrOwZA/exec';
 const TIPO = 'fiesta';
 
 // Parámetros URL
 const P = new URLSearchParams(location.search);
 const NOM = P.get('nombre') ? decodeURIComponent(P.get('nombre')) : null;
-const PER = parseInt(P.get('personas')) || 1;
+const PER = parseInt(P.get('personas')) || 0;
 if (NOM) {
   document.getElementById('t-nom').textContent = NOM;
-  document.getElementById('t-per').textContent = PER;
-  document.getElementById('t-s').textContent   = PER===1?'':'s';
-  document.getElementById('r-nom').value       = NOM;
-} else {
+  document.getElementById('r-nom').value = NOM;
+}
+// Ocultar "vale para X personas" si no hay numero de personas
+if (!PER || PER === 0) {
   document.getElementById('t-vale').style.display='none';
+} else {
+  document.getElementById('t-per').textContent = PER;
+  document.getElementById('t-s').textContent = PER===1?'':'s';
 }
 
 // Música
