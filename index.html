@@ -72,25 +72,17 @@
     .btn-mapa{display:inline-block;margin-top:22px;padding:13px 32px;border:1px solid var(--lav);border-radius:3px;font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--txm);text-decoration:none;transition:all .3s}
     .btn-mapa:hover{background:var(--ld);color:white;border-color:var(--ld)}
 
-    /* ═══════════ CARRUSEL INFINITO FLUIDO ═══════════
-       Técnica: clonar primer/último slide en los extremos
-       Al llegar al clon → salto silencioso al real
-    ═══════════════════════════════════════════════════ */
+    /* CARRUSEL RESPONSIVE */
     .galeria{background:var(--lp);padding:90px 0}
     .galeria .inn{max-width:100%;padding:0 30px}
-    .car-wrap{position:relative;max-width:380px;margin:48px auto 0;border-radius:16px;box-shadow:0 20px 60px rgba(92,74,154,.18);aspect-ratio:3/4}
-    .car-inner{overflow:hidden;border-radius:16px;height:100%}
-    .car-track{display:flex;will-change:transform;height:100%}
-    .car-slide{min-width:100%;height:100%;flex-shrink:0;position:relative}
+    .car-wrap{position:relative;width:min(100% - 32px, 420px);margin:48px auto 0}
+    .car-inner{overflow:hidden;border-radius:22px;height:clamp(420px,72vw,620px);box-shadow:0 20px 60px rgba(92,74,154,.18);background:white}
+    .car-track{display:flex;will-change:transform;height:100%;touch-action:pan-y}
+    .car-slide{min-width:100%;height:100%;flex-shrink:0;position:relative;background:#EEE8F8}
     .car-slide img{width:100%;height:100%;object-fit:cover;display:block}
-    .car-btn{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,0.9);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:17px;box-shadow:0 4px 20px rgba(0,0,0,.2);z-index:10;transition:all .3s;color:var(--ld)}
-    .car-btn:hover{background:var(--ld);color:white;transform:translateY(-50%) scale(1.06)}
-    .car-btn.prev{left:-22px}
-    .car-btn.next{right:-22px}
-    .car-dots{display:flex;justify-content:center;gap:9px;margin-top:20px}
-    .car-dot{width:7px;height:7px;border-radius:50%;background:var(--lc);cursor:pointer;transition:all .3s}
-    .car-dot.on{background:var(--lo);transform:scale(1.4)}
-
+    .car-dots{display:flex;justify-content:center;gap:10px;margin-top:18px}
+    .car-dot{width:8px;height:8px;border-radius:50%;background:rgba(92,74,154,.22);cursor:pointer;transition:all .3s ease;border:none;padding:0}
+    .car-dot.on{background:var(--lo);transform:scale(1.35)}
     /* LUGAR */
 
     /* REGALO */
@@ -148,7 +140,7 @@
     @keyframes pul{0%,100%{opacity:1}50%{opacity:.3}}
     .reveal{opacity:0;transform:translateY(28px);transition:opacity .85s ease,transform .85s ease}
     .reveal.vis{opacity:1;transform:translateY(0)}
-    @media(max-width:480px){.tarjeta{padding:38px 26px}.reg-card{padding:28px 22px}.cr-sep{display:none}.agenda-btns{flex-direction:column;align-items:center}}
+    @media(max-width:480px){.tarjeta{padding:38px 26px}.reg-card{padding:28px 22px}.cr-sep{display:none}.agenda-btns{flex-direction:column;align-items:center}.galeria{padding:72px 0}.galeria .inn{padding:0 20px}.car-wrap{width:min(100% - 24px, 360px)}.car-inner{height:min(78vh, 500px);border-radius:18px}}
   </style>
 </head>
 <body>
@@ -220,9 +212,7 @@
     <div class="car-inner">
       <div class="car-track" id="track"></div>
     </div>
-    <button class="car-btn prev" onclick="cPrev()">&#8592;</button>
-    <button class="car-btn next" onclick="cNext()">&#8594;</button>
-  </div>
+</div>
   <div class="car-dots" id="dots"></div>
 </section>
 
@@ -231,9 +221,9 @@
 <section class="sec reg-bg">
   <div class="inn reveal">
     <p class="tag">Regalo</p>
-    <h2 class="tit">Si querés hacernos un regalo</h2>
+    <h2 class="tit">Un detalle para nuestro nuevo comienzo</h2>
     <div class="div"><div class="dl"></div><span class="dg">✦</span><div class="dl"></div></div>
-    <p style="font-size:14px;color:var(--txc);line-height:1.9">Tu presencia es el mejor regalo.<br>Si aun así deseás obsequiarnos algo, podés hacerlo por transferencia.</p>
+    <p style="font-size:14px;color:var(--txc);line-height:1.9">Si deseás hacernos un regalo, podés hacerlo a través de la siguiente cuenta.</p>
     <div class="reg-card">
       <p class="rg-b">Banco Continental</p>
       <p class="rg-t">Christian Damian Villagra Acosta</p>
@@ -320,7 +310,8 @@ const TIPO = 'fiesta';
 // Parámetros URL
 const P = new URLSearchParams(location.search);
 const NOM = P.get('nombre') ? decodeURIComponent(P.get('nombre')) : null;
-const PER = parseInt(P.get('personas')) || 0;
+const PER_RAW = P.get('personas');
+const PER = PER_RAW === null || PER_RAW === '' ? 0 : Number(PER_RAW);
 if (NOM) {
   document.getElementById('t-nom').textContent = NOM;
   document.getElementById('r-nom').value = NOM;
@@ -349,67 +340,106 @@ function cr(){
 }
 cr();setInterval(cr,1000);
 
-// ═══════════════════════════════════════════════
-//  CARRUSEL INFINITO Y FLUIDO
-//  Clona el primero al final y el último al inicio
-// ═══════════════════════════════════════════════
+// Carrusel responsive, sin flechas, con autoplay y swipe
 const FOTOS=['foto1.jpg','foto2.jpg','foto3.jpg','foto4.jpg'];
 const N=FOTOS.length;
-let idx=1; // 0 = clon-último, 1..N = reales, N+1 = clon-primero
+let idx=1;
 let moving=false;
+let auto=null;
+let touchStartX=0;
 
-(function init(){
+(function initCarrusel(){
   const track=document.getElementById('track');
   const dots=document.getElementById('dots');
-  // Construir slides: [clon del último, ...fotos, clon del primero]
+
   [FOTOS[N-1],...FOTOS,FOTOS[0]].forEach(src=>{
-    const s=document.createElement('div');s.className='car-slide';
-    const img=document.createElement('img');img.src=src;
-    img.onerror=()=>{s.style.background='#DDD6F0';img.style.display='none';};
-    s.appendChild(img);track.appendChild(s);
+    const slide=document.createElement('div');
+    slide.className='car-slide';
+
+    const img=document.createElement('img');
+    img.src=src;
+    img.loading='lazy';
+    img.alt='Foto de Christian y Erika';
+    img.onerror=()=>{
+      slide.style.background='#DDD6F0';
+      img.style.display='none';
+    };
+
+    slide.appendChild(img);
+    track.appendChild(slide);
   });
-  // Dots
+
   FOTOS.forEach((_,i)=>{
-    const d=document.createElement('div');
-    d.className='car-dot'+(i===0?' on':'');
-    d.onclick=()=>moveTo(i+1);
-    dots.appendChild(d);
+    const dot=document.createElement('button');
+    dot.type='button';
+    dot.className='car-dot'+(i===0?' on':'');
+    dot.setAttribute('aria-label',`Ver foto ${i+1}`);
+    dot.onclick=()=>moveTo(i+1);
+    dots.appendChild(dot);
   });
-  // Posición inicial: sin transición
+
   track.style.transform=`translateX(-${idx*100}%)`;
 
-  // Detectar fin de transición para el salto invisible
   track.addEventListener('transitionend',()=>{
     moving=false;
-    if(idx===N+1){track.style.transition='none';idx=1;track.style.transform=`translateX(-${idx*100}%)`;}
-    if(idx===0){track.style.transition='none';idx=N;track.style.transform=`translateX(-${idx*100}%)`;}
+    if(idx===N+1){
+      track.style.transition='none';
+      idx=1;
+      track.style.transform=`translateX(-${idx*100}%)`;
+    }
+    if(idx===0){
+      track.style.transition='none';
+      idx=N;
+      track.style.transform=`translateX(-${idx*100}%)`;
+    }
+    requestAnimationFrame(()=>{ track.style.transition=''; });
   });
+
+  track.addEventListener('touchstart',e=>{
+    touchStartX=e.touches[0].clientX;
+    stopAuto();
+  },{passive:true});
+
+  track.addEventListener('touchend',e=>{
+    const delta=touchStartX-e.changedTouches[0].clientX;
+    if(Math.abs(delta)>40){
+      delta>0 ? cNext() : cPrev();
+    }
+    startAuto();
+  },{passive:true});
+
+  track.addEventListener('mouseenter',stopAuto);
+  track.addEventListener('mouseleave',startAuto);
+
+  startAuto();
 })();
 
-function moveTo(ni){
+function updateDots(){
+  const realIndex=(idx-1+N)%N;
+  document.querySelectorAll('.car-dot').forEach((dot,i)=>dot.classList.toggle('on',i===realIndex));
+}
+
+function moveTo(nextIndex){
   if(moving)return;
   moving=true;
-  idx=ni;
+  idx=nextIndex;
   const track=document.getElementById('track');
-  track.style.transition='transform 0.6s cubic-bezier(0.77,0,0.175,1)';
+  track.style.transition='transform 0.55s ease';
   track.style.transform=`translateX(-${idx*100}%)`;
-  // Actualizar dots (índice real)
-  const r=((idx-1+N)%N);
-  document.querySelectorAll('.car-dot').forEach((d,i)=>d.classList.toggle('on',i===r));
+  updateDots();
 }
+
 function cNext(){moveTo(idx+1);}
 function cPrev(){moveTo(idx-1);}
 
-let auto=setInterval(cNext,4500);
-document.getElementById('track').addEventListener('touchstart',()=>clearInterval(auto));
-let tx=0;
-document.getElementById('track').addEventListener('touchstart',e=>{tx=e.touches[0].clientX;});
-document.getElementById('track').addEventListener('touchend',e=>{
-  const df=tx-e.changedTouches[0].clientX;
-  if(Math.abs(df)>40)df>0?cNext():cPrev();
-  auto=setInterval(cNext,4500);
-});
+function startAuto(){
+  stopAuto();
+  auto=setInterval(cNext,5000);
+}
 
+function stopAuto(){
+  if(auto) clearInterval(auto);
+}
 // Canción
 async function enviarCancion(){
   const can=document.getElementById('can-inp').value.trim();
