@@ -190,9 +190,45 @@
       .h-sub, .tag { letter-spacing: .25em; }
       .h-fec { letter-spacing: .2em; }
     }
+
+    /* ── Loader ── */
+    #loader{position:fixed;inset:0;z-index:9999;background:linear-gradient(160deg,var(--blanco),var(--lavanda-1));display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .8s ease,visibility .8s ease}
+    #loader.hide{opacity:0;visibility:hidden;pointer-events:none}
+    .ld-nom{font-family:'Cormorant Garamond',serif;font-size:clamp(2.4rem,8vw,4.2rem);color:var(--lavanda-5);animation:ldPulse 1.6s ease infinite}
+    .ld-line{width:50px;height:1px;background:var(--lavanda-3);margin:18px auto;animation:ldGrow 1.6s ease infinite}
+    .ld-sub{font-size:11px;letter-spacing:5px;text-transform:uppercase;color:var(--texto-claro)}
+    @keyframes ldPulse{0%,100%{opacity:1}50%{opacity:.45}}
+    @keyframes ldGrow{0%,100%{width:40px}50%{width:90px}}
+
+    /* ── Lightbox ── */
+    #lb{position:fixed;inset:0;z-index:9998;background:rgba(0,0,0,.92);display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:.3s ease;cursor:zoom-out}
+    #lb.on{opacity:1;visibility:visible}
+    #lb-img{max-width:92vw;max-height:88vh;border-radius:8px;object-fit:contain;cursor:default;box-shadow:0 0 60px rgba(0,0,0,.5)}
+    .lb-close{position:absolute;top:16px;right:20px;background:none;border:none;color:#fff;font-size:1.8rem;cursor:pointer;opacity:.8;line-height:1}
+    .lb-close:hover{opacity:1}
+    .lb-arr{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.12);border:none;color:#fff;font-size:2.2rem;cursor:pointer;padding:12px 16px;border-radius:6px;transition:.2s}
+    .lb-arr:hover{background:rgba(255,255,255,.25)}
+    .lb-arr.prev{left:10px}.lb-arr.next{right:10px}
+    @media(max-width:520px){.lb-arr{display:none}}
+
+    /* ── Map ── */
+    .map-wrap{margin-top:22px;border-radius:12px;overflow:hidden;border:1px solid var(--borde);box-shadow:var(--sombra)}
+    .map-wrap iframe{display:block;width:100%;height:260px;border:none}
   </style>
 </head>
 <body>
+
+<div id="loader">
+  <p class="ld-nom">Christian &amp; Erika</p>
+  <div class="ld-line"></div>
+  <p class="ld-sub">Cargando tu invitación...</p>
+</div>
+<div id="lb" onclick="if(event.target===this)closeLb()">
+  <button class="lb-close" onclick="closeLb()">✕</button>
+  <button class="lb-arr prev" onclick="lbMove(-1)">‹</button>
+  <img id="lb-img" src="" alt="Foto de Christian y Erika">
+  <button class="lb-arr next" onclick="lbMove(1)">›</button>
+</div>
 
 <audio id="aud" loop preload="auto"><source src="ordinary.mp3" type="audio/mpeg"></audio>
 <button id="btn-mus" onclick="toggleM()" title="Música">♪</button>
@@ -242,6 +278,9 @@
       <div class="event-text">Quinta Arcoiris Eventos<br>Fulgencio Yegros, Hernandarias<br>¡Los esperamos para celebrar!</div>
     </div>
     <a href="https://maps.google.com/?q=Arcoiris+eventos+Hernandarias+Paraguay" target="_blank" class="btn-mapa">📍 Cómo llegar</a>
+    <div class="map-wrap">
+      <iframe src="https://www.google.com/maps?q=Quinta+Arcoiris+Eventos,+Fulgencio+Yegros,+Hernandarias,+Paraguay&output=embed" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
   </div>
 </section>
 
@@ -410,7 +449,15 @@ function cr() {
 cr();
 setInterval(cr, 1000);
 
-const FOTOS = ['foto1.jpg', 'foto2.jpg', 'foto3.jpg', 'foto4.jpg'];
+const FOTOS = [
+  'https://res.cloudinary.com/dmfihz1pe/image/upload/v1775065241/WhatsApp_Image_2026-03-24_at_07.59.40_convertida_wgi9xb.jpg',
+  'https://res.cloudinary.com/dmfihz1pe/image/upload/v1775065241/WhatsApp_Image_2026-03-24_at_07.59.39_2__convertida_cg69nw.jpg',
+  'https://res.cloudinary.com/dmfihz1pe/image/upload/v1775065241/WhatsApp_Image_2026-03-24_at_07.59.38_2__convertida_vi2dpn.jpg',
+  'https://res.cloudinary.com/dmfihz1pe/image/upload/v1775065240/WhatsApp_Image_2026-03-24_at_07.59.39_1__convertida_akdepn.jpg',
+  'https://res.cloudinary.com/dmfihz1pe/image/upload/v1775065240/WhatsApp_Image_2026-03-24_at_07.59.39_convertida_ivevci.jpg',
+  'https://res.cloudinary.com/dmfihz1pe/image/upload/v1775065240/WhatsApp_Image_2026-03-24_at_07.59.38_convertida_dkhpao.jpg',
+  'https://res.cloudinary.com/dmfihz1pe/image/upload/v1775065162/WhatsApp_Image_2026-03-24_at_07.59.38_2__convertida_x4uolv.jpg'
+];
 const N = FOTOS.length;
 let idx = 1;
 let moving = false;
@@ -484,6 +531,8 @@ let slideW = 0;
   track.addEventListener('mouseleave', startAuto);
 
   window.__applyCarrusel = applyTransform;
+  track.style.cursor = 'zoom-in';
+  track.addEventListener('click', () => { const r = (idx - 1 + N) % N; openLb(r); });
   startAuto();
 })();
 
@@ -550,6 +599,16 @@ async function enviarRSVP() {
     alert('Hubo un problema. Intentá de nuevo.');
   }
 }
+
+// Loader
+window.addEventListener('load', () => { setTimeout(() => document.getElementById('loader').classList.add('hide'), 600); });
+
+// Lightbox
+let lbIdx = 0;
+function openLb(i) { lbIdx = i; document.getElementById('lb-img').src = FOTOS[lbIdx]; document.getElementById('lb').classList.add('on'); stopAuto(); }
+function closeLb() { document.getElementById('lb').classList.remove('on'); startAuto(); }
+function lbMove(dir) { lbIdx = (lbIdx + dir + N) % N; document.getElementById('lb-img').src = FOTOS[lbIdx]; }
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLb(); if (e.key === 'ArrowRight') lbMove(1); if (e.key === 'ArrowLeft') lbMove(-1); });
 
 const obs = new IntersectionObserver(entries => {
   entries.forEach(entry => {
