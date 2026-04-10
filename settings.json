@@ -15,6 +15,12 @@
   },
   "skills": [
     {
+      "name": "superpowers",
+      "enabled": true,
+      "description": "Agentic framework - Research, Spec, Plan, Test, Build methodology",
+      "repo": "https://github.com/obra/superpowers"
+    },
+    {
       "name": "ui-ux-pro-max",
       "enabled": true,
       "description": "Design intelligence for professional UI/UX",

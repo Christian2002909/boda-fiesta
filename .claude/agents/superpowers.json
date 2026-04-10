@@ -1,0 +1,26 @@
+{
+  "name": "Superpowers",
+  "enabled": true,
+  "type": "framework",
+  "description": "Agentic skills framework & software development methodology. Makes Claude plan before it codes.",
+  "repo": "https://github.com/obra/superpowers",
+  "installation": "npm install superpowers",
+  "features": [
+    "Research phase",
+    "Specification generation",
+    "Planning loop",
+    "Test-driven development",
+    "Senior developer mindset",
+    "Full development cycle automation",
+    "Prevents guessing",
+    "Structured problem solving"
+  ],
+  "workflow": [
+    "Research",
+    "Spec",
+    "Plan",
+    "Test",
+    "Build"
+  ],
+  "usage": "Automatic - Applies full development methodology to all tasks"
+}

@@ -20,6 +20,12 @@ Este directorio contiene la configuración completa de agentes, skills y optimiz
 
 ## Agentes Instalados
 
+### 0. **Superpowers** - Framework Agentico (PRINCIPAL)
+- Metodología completa: Research → Spec → Plan → Test → Build
+- Hace que Claude planifique antes de codificar
+- Pensamiento de senior developer
+- Se aplica automáticamente a todos los proyectos
+
 ### 1. **n8n-MCP** - Automatizaciones Backend
 - Integración con n8n workflows
 - Validación de automatizaciones
