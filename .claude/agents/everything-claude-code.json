@@ -1,0 +1,19 @@
+{
+  "name": "Everything-Claude-Code",
+  "enabled": true,
+  "type": "system",
+  "description": "Complete performance system for Claude Code. Better context handling, faster execution, pre-built skills.",
+  "repo": "https://github.com/affiaan-m/everything-claude-code",
+  "installation": "npm install everything-claude-code",
+  "features": [
+    "Performance optimization",
+    "Enhanced context handling",
+    "Faster task execution",
+    "Pre-built skills library",
+    "Security improvements",
+    "Memory optimization",
+    "Instinct development",
+    "Research-first approach"
+  ],
+  "usage": "System-wide performance enhancement for Claude Code"
+}

@@ -1,0 +1,9 @@
+{
+  "name": "n8n-MCP",
+  "enabled": true,
+  "type": "mcp",
+  "description": "Connects Claude Code to n8n for backend automations. Allows testing and validating workflows.",
+  "repo": "https://github.com/czlonkowski/n8n-mcp",
+  "installation": "npm install n8n-mcp",
+  "usage": "Validate n8n workflows before deployment"
+}

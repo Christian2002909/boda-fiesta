@@ -1,0 +1,17 @@
+{
+  "name": "UI/UX Pro Max",
+  "enabled": true,
+  "type": "skill",
+  "description": "AI SKILL that provides design intelligence for building professional UI/UX across multiple platforms.",
+  "repo": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill",
+  "installation": "npm install ui-ux-pro-max-skill",
+  "features": [
+    "Professional UI/UX design patterns",
+    "Typography optimization",
+    "Color system generation",
+    "Animation guidelines",
+    "Multi-platform consistency",
+    "Design system creation"
+  ],
+  "usage": "Forces real design direction before any code is written"
+}

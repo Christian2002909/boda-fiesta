@@ -1,0 +1,17 @@
+{
+  "name": "Browser-use",
+  "enabled": true,
+  "type": "mcp",
+  "description": "Lets Claude control a real browser. Click buttons, fill forms, take screenshots, run tests.",
+  "repo": "https://github.com/browser-use/browser-use",
+  "installation": "npm install browser-use",
+  "features": [
+    "Real browser interaction",
+    "Form automation",
+    "Screenshot capture",
+    "Test execution",
+    "Website automation",
+    "DOM manipulation"
+  ],
+  "usage": "Useful when Claude needs to interact with actual websites without API access"
+}

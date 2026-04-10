@@ -1,0 +1,14 @@
+{
+  "name": "Claude-mem",
+  "enabled": true,
+  "type": "agent",
+  "description": "Persistent memory across sessions. No need to re-explain your project each time.",
+  "repo": "https://github.com/thedotmack/claude-mem",
+  "installation": "npm install claude-mem",
+  "features": [
+    "Session persistence",
+    "Project context memory",
+    "Preferences storage",
+    "Codebase learning"
+  ]
+}

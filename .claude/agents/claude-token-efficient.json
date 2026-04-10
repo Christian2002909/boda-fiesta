@@ -1,0 +1,17 @@
+{
+  "name": "claude-token-efficient",
+  "enabled": true,
+  "type": "config",
+  "description": "Token optimization system. Reduces token consumption by ~63% through smart response formatting.",
+  "repo": "https://github.com/drona23/claude-token-efficient",
+  "features": [
+    "63% reduction in token usage",
+    "Concise response generation",
+    "No unnecessary preamble/closing",
+    "Optimized for cost reduction",
+    "Profiles: coding, agents, analysis",
+    "Multiple versions (v5, v6, v8)"
+  ],
+  "implementation": "Via CLAUDE.md file in project root",
+  "usage": "Automatic - configured in CLAUDE.md"
+}

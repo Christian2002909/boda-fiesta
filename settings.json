@@ -1,0 +1,53 @@
+{
+  "mcps": {
+    "n8n-mcp": {
+      "command": "npx",
+      "args": ["n8n-mcp"],
+      "enabled": true,
+      "description": "N8N automation integration for Claude Code"
+    },
+    "browser-use": {
+      "command": "npx",
+      "args": ["@browser-use/mcp"],
+      "enabled": true,
+      "description": "Browser automation and control"
+    }
+  },
+  "skills": [
+    {
+      "name": "ui-ux-pro-max",
+      "enabled": true,
+      "description": "Design intelligence for professional UI/UX",
+      "repo": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill"
+    },
+    {
+      "name": "everything-claude-code",
+      "enabled": true,
+      "description": "Complete performance system for Claude Code",
+      "repo": "https://github.com/affiaan-m/everything-claude-code"
+    },
+    {
+      "name": "claude-mem",
+      "enabled": true,
+      "description": "Persistent memory across sessions",
+      "repo": "https://github.com/thedotmack/claude-mem"
+    }
+  ],
+  "tokenOptimization": {
+    "enabled": true,
+    "maxTokensPerResponse": 2000,
+    "summarizeWhenNeeded": true,
+    "description": "Configured via CLAUDE.md for ~63% token reduction"
+  },
+  "codeSettings": {
+    "preferToolsOverBash": true,
+    "requireFileReadBeforeEdit": true,
+    "parallelizeIndependentCalls": true,
+    "noForceWithoutPermission": true
+  },
+  "gitSettings": {
+    "newCommitsNotAmendments": true,
+    "confirmDestructiveOps": true,
+    "pushBranch": "claude/reset-agents-skills-tFN73"
+  }
+}
